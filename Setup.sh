@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Installing dependencies:"
-apt update && pkg install -y git wget python2
+apt update && pkg install -y git wget python2 clang make binutils zlib libpng libjpeg-turbo
 echo "Installing python dependencies:"
 pip2 install --upgrade setuptools wheel pip
 pip2 install pillow
