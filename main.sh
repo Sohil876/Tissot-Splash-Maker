@@ -14,7 +14,6 @@ function error_exit () {
 }
 
 rm "splash.img" 2>/dev/null 
-
 InMaxSizesBytes=(100864 613888 101888 153088 204800)
 
 input_img_filename="input/0x.png"
@@ -33,7 +32,7 @@ do
 done
 
 # Write splash.img header
-dd if=/dev/zero of="$output" bs=1024 count=1 2>/dev/null
+dd if=/dev/zero of="$output" bs=1024 count=1 iflag=fullblock 2>/dev/null
 
 # Convert images to RLE
 for((i=0; i<5; i++))
@@ -78,12 +77,12 @@ do
             printf "%b" $bytestring > "header.bin"
 
             paddingsize=$((512-20-4))
-            dd if=/dev/zero of="header_padding.bin" bs=$paddingsize count=1 2>/dev/null
+            dd if=/dev/zero of="header_padding.bin" bs=$paddingsize count=1 iflag=fullblock 2>/dev/null
 
             cat $headerf "header.bin" "header_padding.bin" >> $output  2>/dev/null
 
             paddingsize=$((${InMaxSizesBytes[i]}-$img_size))
-            dd if=/dev/zero of="content_padding.bin" bs=$paddingsize count=1 2>/dev/null
+            dd if=/dev/zero of="content_padding.bin" bs=$paddingsize count=1 iflag=fullblock 2>/dev/null
             cat $imgf "content_padding.bin" >> $output  2>/dev/null
         fi
     fi
